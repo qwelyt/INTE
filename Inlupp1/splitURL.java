@@ -1,4 +1,8 @@
-package Inlupp1
+package Inlupp1;
+
+import java.util.regex.*;
+import java.util.*;
+import java.lang.*;
 
 /**
  * The splitURL-program is supposed to take a string,
@@ -20,12 +24,28 @@ public class splitURL{
 	private String path;
 
 
-	public splitURL(String inURL){
+	splitURL(String inURL){
 		url = inURL;
 	}
 
 	public String[] getAll(){
-		String[] all = {url, protocol, domain, path}
+		String[] all = {url, protocol, domain, path};
 		return all;
+	}
+
+	public String getInput(){
+		return url;
+	}
+
+	public String getDomain(){
+		Pattern pattern = Pattern.compile("^.*?://([^/?##]+).*$");
+		Matcher matcher = pattern.matcher(url);
+		if(matcher.find()){
+			domain = matcher.group(0);
+		}
+		else{
+			domain = "not found";
+		}
+		return domain;
 	}
 }

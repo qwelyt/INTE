@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.junit.Assert.*;
 
 /**
  * Test for splitURL
@@ -23,12 +24,27 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class splitURLtester{
-	private splitURL url = new splitURL("apa");
+	splitURL url = new splitURL("apa");
 	
 	@Test
 	public void creation(){
 		System.out.println("Test 1");
 		System.out.flush();
-		assertNull(url);
+		org.junit.Assert.assertNotNull(url);
+	}
+
+	@Test
+	public void getString(){
+		System.out.println("Test 2");
+		System.out.flush();
+		assertEquals("apa", url.getInput());
+	}
+
+	@Test
+	public void getProtocol(){
+		System.out.println("Test 3");
+		System.out.flush();
+		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
+		assertEquals("http", url2.getDomain());
 	}
 }
