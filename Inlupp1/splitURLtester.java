@@ -101,10 +101,13 @@ public class splitURLtester{
 		System.out.println(url4.toString());
 	}
 
-
-
-
-
-
-
+	@Test
+	public void noPath(){
+		System.out.println("Test 10");
+		System.out.flush();
+		splitURL url5= new splitURL("http://www.google.com");
+		assertEquals("", url5.getPath());
+		assertEquals("www.google.com", url5.getDomain());
+		System.out.println(url5.toString());
+	}
 }

@@ -56,7 +56,7 @@ public class splitURL{
 	}
 
 	public String getDomain(){
-		Pattern pattern = Pattern.compile("(?<=(://))(/)?(.*?)(?=/)");
+		Pattern pattern = Pattern.compile("(?<=(://))(/)?(.*?)(?=(?:/|$))");
 		Matcher matcher = pattern.matcher(url);
 		if(matcher.find()){
 			domain = matcher.group(0);
@@ -71,10 +71,10 @@ public class splitURL{
 		Pattern pattern = Pattern.compile("(?<=[a-zA-Z]/)(.*)$");
 		Matcher matcher = pattern.matcher(url);
 		if(matcher.find()){
-			path = matcher.group(0);
+      			path = matcher.group(0);
 		}
 		else{
-			path = "not found";
+			path = "";
 		}
 		return path;
 	}
