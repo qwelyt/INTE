@@ -45,7 +45,23 @@ public class splitURLtester{
 		System.out.println("Test 3");
 		System.out.flush();
 		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
-		assertEquals("http", url2.getDomain());
+		assertEquals("http", url2.getProtocol());
+	}
+
+	@Test
+	public void getDomain(){
+		System.out.println("Test 4");
+		System.out.flush();
+		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
+		assertEquals("www.google.com", url2.getDomain());
+	}
+
+	@Test
+	public void getPath(){
+		System.out.println("Test 5");
+		System.out.flush();
+		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
+		assertEquals("search?q=url", url2.getPath());
 	}
 
 }

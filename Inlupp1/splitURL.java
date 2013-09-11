@@ -37,8 +37,20 @@ public class splitURL{
 		return url;
 	}
 
-	public String getDomain(){
+	public String getProtocol(){
 		Pattern pattern = Pattern.compile("(.*)(?=(://))");
+		Matcher matcher = pattern.matcher(url);
+		if(matcher.find()){
+			protocol = matcher.group(0);
+		}
+		else{
+			protocol = "not found";
+		}
+		return protocol;
+	}
+
+	public String getDomain(){
+		Pattern pattern = Pattern.compile("(?<=(://))(.*)(?=/)");
 		Matcher matcher = pattern.matcher(url);
 		if(matcher.find()){
 			domain = matcher.group(0);
@@ -48,4 +60,17 @@ public class splitURL{
 		}
 		return domain;
 	}
+
+	public String getPath(){
+		Pattern pattern = Pattern.compile("(?<=[a-zA-Z]/)(.*)$");
+		Matcher matcher = pattern.matcher(url);
+		if(matcher.find()){
+			path = matcher.group(0);
+		}
+		else{
+			path = "not found";
+		}
+		return path;
+	}
+
 }
