@@ -25,10 +25,16 @@ public class splitURL{
 
 
 	splitURL(String inURL){
-		url = inURL;
+		if(inURL != "")
+			url = inURL;
+		else
+			throw new IllegalArgumentException("URL is empty"); 
 	}
 
 	public String[] getAll(){
+		this.getProtocol();
+		this.getDomain();
+		this.getPath();
 		String[] all = {url, protocol, domain, path};
 		return all;
 	}
@@ -50,7 +56,7 @@ public class splitURL{
 	}
 
 	public String getDomain(){
-		Pattern pattern = Pattern.compile("(?<=(://))(.*)(?=/)");
+		Pattern pattern = Pattern.compile("(?<=(://))(/)?(.*?)(?=/)");
 		Matcher matcher = pattern.matcher(url);
 		if(matcher.find()){
 			domain = matcher.group(0);
@@ -71,6 +77,13 @@ public class splitURL{
 			path = "not found";
 		}
 		return path;
+	}
+
+	public String toString(){
+		this.getProtocol();
+		this.getDomain();
+		this.getPath();
+		return "Protocol: "+protocol+", Domain: "+domain+", Path: "+path;
 	}
 
 }
