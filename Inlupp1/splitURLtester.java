@@ -24,90 +24,86 @@ import org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class splitURLtester{
-	splitURL url = new splitURL("apa");
-	
-	@Test
-	public void creation(){
-		System.out.println("Test 1");
-		System.out.flush();
-		org.junit.Assert.assertNotNull(url);
-	}
 
 	@Test
-	public void getString(){
-		System.out.println("Test 2");
-		System.out.flush();
-		assertEquals("apa", url.getInput());
-	}
-
-	@Test
-	public void getProtocol(){
-		System.out.println("Test 3");
-		System.out.flush();
-		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
-		assertEquals("http", url2.getProtocol());
-	}
-
-	@Test
-	public void getDomain(){
-		System.out.println("Test 4");
-		System.out.flush();
-		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
-		assertEquals("www.google.com", url2.getDomain());
-	}
-
-	@Test
-	public void getPath(){
-		System.out.println("Test 5");
-		System.out.flush();
-		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
-		assertEquals("search?q=url", url2.getPath());
-	}
-
-	@Test
-	public void getAll(){
-		System.out.println("Test 6");
-		System.out.flush();
-		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
-		String[] expect = {"http://www.google.com/search?q=url", "http", "www.google.com", "search?q=url"};
-		org.junit.Assert.assertArrayEquals(expect, url2.getAll());
-	}
-
-	@Test
-	public void TesttoString(){
-		System.out.println("Test 7");
-		System.out.flush();
-		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
-		assertEquals("Protocol: http, Domain: www.google.com, Path: search?q=url", url2.toString());
+	public void testFormat(){
+		splitURL test = new splitURL("http://www.google.com/");
+		splitURL test2 = new splitURL("http://www.google.com");
+		splitURL test3 = new splitURL("http://www.google.com/search?q=url");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void createEmpty(){
-		System.out.println("Test 8");
-		System.out.flush();
-		splitURL url3 = new splitURL("");
-		System.out.println("Test 8 done");
-		System.out.flush();
+	public void testFormatFail(){
+		splitURL test = new splitURL("just a string");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFormatFail2(){
+		splitURL test = new splitURL("http://");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void noProtocol(){
+		splitURL test = new splitURL("www.google.com/");
 	}
 
 	@Test
-	public void createFile(){
-		System.out.println("Test 9");
-		System.out.flush();
-		splitURL url4 = new splitURL("file:///home/chewtoy/chewtoy.vim");
-		assertEquals("file", url4.getProtocol());
-		assertEquals("/home", url4.getDomain());
-		assertEquals("chewtoy/chewtoy.vim", url4.getPath());
-		System.out.println(url4.toString());
+	public void all(){
+		splitURL test = new splitURL("http://www.google.com/search?q=url");
+		org.junit.Assert.assertTrue(test.validURL());
+		assertEquals("http", test.getProtocol());
+		assertEquals("www.google.com", test.getDomain());
+		assertEquals("search?q=url", test.getPath());
+		assertEquals("Protocol: http, Domain: www.google.com, Path: search?q=url", test.toString());
+
 	}
 
 	@Test
-	public void noPath(){
-		System.out.println("Test 10");
-		System.out.flush();
-		splitURL url5= new splitURL("http://www.google.com");
-		assertEquals("", url5.getPath());
-		assertEquals("www.google.com", url5.getDomain());
-		System.out.println(url5.toString());
+	public void testFile(){
+		splitURL test = new splitURL("file:///home/chewtoy/chewtoy.vim");
+		org.junit.Assert.assertTrue(test.validURL());
+		assertEquals("file", test.getProtocol());
+		assertEquals("/home", test.getDomain());
+		assertEquals("chewtoy/chewtoy.vim", test.getPath());
+		assertEquals("Protocol: file, Domain: /home, Path: chewtoy/chewtoy.vim", test.toString());
 	}
+
+	@Test
+	public void testSeveralSubs(){
+		splitURL test = new splitURL("https://wiki.archlinux.org/index.php/Taking_a_Screenshot");
+		org.junit.Assert.assertTrue(test.validURL());
+		assertEquals("https", test.getProtocol());
+		assertEquals("wiki.archlinux.org", test.getDomain());
+		assertEquals("index.php/Taking_a_Screenshot", test.getPath());
+		assertEquals("Protocol: https, Domain: wiki.archlinux.org, Path: index.php/Taking_a_Screenshot", test.toString());
+	}
+
+	@Test
+	public void testSeveralProtocols(){
+		splitURL test = new splitURL("http://test.com");
+		assertEquals("http", test.getProtocol());
+
+		splitURL test2 = new splitURL("https://test.com");
+		assertEquals("https", test2.getProtocol());
+
+		splitURL test3 = new splitURL("smtp://test.com");
+		assertEquals("smtp", test3.getProtocol());
+
+		splitURL test4 = new splitURL("file:///test.txt");
+		assertEquals("file", test4.getProtocol());
+
+		splitURL test5 = new splitURL("ftp://test.com");
+		assertEquals("ftp", test5.getProtocol());
+
+		splitURL test6 = new splitURL("gopher://test.com");
+		assertEquals("gopher", test6.getProtocol());
+
+		splitURL test7 = new splitURL("ssh://test.com");
+		assertEquals("ssh", test7.getProtocol());
+
+		splitURL test8 = new splitURL("imap://test.com");
+		assertEquals("imap", test8.getProtocol());
+	}
+
+
 }
