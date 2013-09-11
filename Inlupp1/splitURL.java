@@ -38,7 +38,7 @@ public class splitURL{
 	}
 
 	public String getDomain(){
-		Pattern pattern = Pattern.compile("^.*?://([^/?##]+).*$");
+		Pattern pattern = Pattern.compile("(.*)(?=(://))");
 		Matcher matcher = pattern.matcher(url);
 		if(matcher.find()){
 			domain = matcher.group(0);

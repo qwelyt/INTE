@@ -47,4 +47,5 @@ public class splitURLtester{
 		splitURL url2 = new splitURL("http://www.google.com/search?q=url");
 		assertEquals("http", url2.getDomain());
 	}
+
 }
